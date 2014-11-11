@@ -2,9 +2,12 @@ package com.asgamer.basics1
 {
 	import flash.display.MovieClip;
 	import flash.display.Stage;	
+	import flash.events.Event;
 	public class Engine extends MovieClip
 	{
 		private var numStars:int = 80;
+		private var enemyList:Array = new Array();
+		private var ourShip:Ship;
 		public function Engine()
 		{
 			
@@ -16,6 +19,28 @@ package com.asgamer.basics1
 				{
 					stage.addChildAt (new Star(stage), 1);
 				}
+			addEventListener(Event.ENTER_FRAME, loop, false, 0, true);
 		}
+		private function loop(e:Event) : void
+		{
+			if (Math.floor(Math.random() * 90) == 5)
+			{
+				var enemy:Stinger = new Stinger(stage, ourShip);
+				
+				enemy.addEventListener(Event.REMOVED_FROM_STAGE, removeEnemy, false, 0, true);
+				
+				enemyList.push(enemy);
+				
+				stage.addChild(enemy);
+			}
+		}
+		
+		private function removeEnemy(e:Event)
+		{
+			enemyList.splice(enemyList.indexOf(e.currentTarget), 1);
+		}
+		
+		
 	}
+	
 }

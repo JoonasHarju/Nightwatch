@@ -6,6 +6,9 @@ package com.asgamer.basics1
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.ui.Keyboard;
+	import flash.events.Event;
+	import flash.utils.Timer;
+	import flash.events.TimerEvent;
 	
 	public class Ship extends MovieClip
 	{
@@ -17,10 +20,30 @@ package com.asgamer.basics1
 		private var friction:Number = 0.93;
 		private var maxspeed:Number = 8;
 		
+		private var fireTimer:Timer;
+		private var canFire:Boolean = true;
+		
+		private function fireBullet() : void
+		{
+			if (canFire)
+			{
+			stageRef.addChild(new LaserBlue(stageRef, x+vx, y - 10));
+			canFire = false;
+			fireTimer.start();
+			}
+		}
+		private function fireTimerHandler(e:TimerEvent) : void
+		{
+			canFire = true;
+		}
+		
 		public function Ship(stageRef:Stage)
 		{
 			this.stageRef = stageRef;
 			key = new KeyObject (stageRef);
+			fireTimer = new Timer(300, 1);
+			fireTimer.addEventListener(TimerEvent.TIMER, fireTimerHandler, false, 0, true);
+			
 			addEventListener(Event.ENTER_FRAME, loop, false, 0,  true);
 		}
 		public function loop(e:Event) : void
@@ -43,6 +66,9 @@ package com.asgamer.basics1
 			y += vy;
 			
 			rotation = vx;
+			
+			if (key.isDown(Keyboard.SPACE))
+				fireBullet();
 			
 			if (vx > maxspeed)
 				vx = maxspeed;
