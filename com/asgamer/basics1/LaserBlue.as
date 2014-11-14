@@ -22,6 +22,15 @@ package com.asgamer.basics1
 			y -= bulletSpeed;
 			if (y < 0)
 				removeSelf();
+			for (var i:int = 0; i < Engine.enemyList.length; i++)
+			{
+				if (hitTestObject(Engine.enemyList[i].hit))
+				{
+					trace("hitEnemy");
+					Engine.enemyList[i].takeHit();
+					removeSelf();
+				}
+			}
 		}
 		private function removeSelf():void
 		{

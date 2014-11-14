@@ -1,5 +1,7 @@
 
 
+
+
 package com.asgamer.basics1
 {
 	
@@ -30,26 +32,24 @@ package com.asgamer.basics1
 		{
 			x += vx;
 			
-			if (y - 15 < target.y && y + 15 > target.y)
-				fireWeapon();
 			if (x > stageRef.stageWidth || x < 0)
 				removeSelf();
-			
-		}
-		private function fireWeapon() : void
-		{
-			stageRef.addChild(new StingerBullet(stageRef, target, x, y, -5));
-			stageRef.addChild(new StingerBullet(stageRef, target, x, y, 5));
+			if (hitTestObject(target.hit))
+			{
+				trace("hitME");
+				removeSelf();
+			}
 		}
 		
 		private function removeSelf() : void
 		{
+			removeEventListener(Event.ENTER_FRAME, loop);
 			if (stageRef.contains(this))
 				stageRef.removeChild(this);
 		}
 		
-		
 	}
 	
 }
+
 

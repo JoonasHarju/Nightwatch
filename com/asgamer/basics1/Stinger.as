@@ -1,5 +1,7 @@
 
 
+
+
 package com.asgamer.basics1
 {
 	
@@ -11,8 +13,8 @@ package com.asgamer.basics1
 	{
 		
 		private var stageRef:Stage;
-		private var vy:Number = 3;
-		private var ay:Number = .4;
+		private var vy:Number = 4; //y velocity
+		private var ay:Number = .2; //y acceleration
 		private var target:Ship;
 		
 		public function Stinger(stageRef:Stage, target:Ship) : void
@@ -33,6 +35,9 @@ package com.asgamer.basics1
 			
 			if (y > stageRef.stageHeight)
 				removeSelf();
+			
+			if (y - 15 < target.y && y + 15 > target.y)
+				fireWeapon();
 		}
 		
 		private function removeSelf() : void {
@@ -41,6 +46,15 @@ package com.asgamer.basics1
 			
 			if (stageRef.contains(this))
 				stageRef.removeChild(this);
+		}
+		private function fireWeapon() : void
+		{
+			stageRef.addChild(new StingerBullet(stageRef, target, x, y, -8));
+			stageRef.addChild(new StingerBullet(stageRef, target, x, y, 8));
+		}
+		public function takeHit() : void
+		{
+			removeSelf();
 		}
 		
 	}

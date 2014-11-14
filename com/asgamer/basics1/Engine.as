@@ -6,12 +6,12 @@ package com.asgamer.basics1
 	public class Engine extends MovieClip
 	{
 		private var numStars:int = 80;
-		private var enemyList:Array = new Array();
+		public static var enemyList:Array = new Array();
 		private var ourShip:Ship;
 		public function Engine()
 		{
 			
-			var ourShip:Ship = new Ship(stage);
+			ourShip = new Ship(stage);
 			stage.addChild(ourShip);
 			ourShip.x = stage.stageWidth / 2;
 			ourShip.y = stage.stageWidth / 2;
